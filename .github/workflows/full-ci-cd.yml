@@ -8,7 +8,7 @@ on:
         description: 'Version to release (i.e.: 1.2.0)'
         required: true
       next_version:
-        description: 'Next development cycle version (i.e.: 1.3.0-SNAPSHOT)'
+        description: 'Next development cycle version (i.e.: 1.3.0-SNAPSHOT)ddd'
         required: true
 
 jobs:
@@ -24,6 +24,7 @@ jobs:
         exclude:
           - isMaster: false
             os: windows-latest
+
     steps:
       - name: Git Checkout
         uses: actions/checkout@v2
