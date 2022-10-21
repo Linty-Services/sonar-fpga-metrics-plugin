@@ -1,32 +1,53 @@
 # SonarQube Linty FPGA Metrics Plugin  
 
-A SonarQube plugin allowing to create custom metrics and assign them values from external files. 
+Create custom metrics and populate them through external file import. 
 
 ## Build Plugin
 
 Without integration tests:
-```
+```bash
 mvn clean package
 ```
 
-With integration tests on SonarQube 7.9.4 version:
-```
-mvn clean verify -Pits -Dsonar.runtimeVersion=7.9.4
+With integration tests on SonarQube 9.7.0.61563 version:
+```bash
+mvn clean verify -Pits -Dsonar.runtimeVersion=9.7.0.61563
 ```
 
-# Usage
+Update license headers:
+```bash
+mvn license:format -Pits
+```
+
+
+## Update All Dependencies
+```bash
+# Check for Maven dependencies to update
+mvn org.codehaus.mojo:versions-maven-plugin:2.12.0:display-dependency-updates -Pits
+
+# Check for Maven plugins to update
+mvn org.codehaus.mojo:versions-maven-plugin:2.12.0:display-plugin-updates -Pits
+
+# Check for versions in properties to update
+mvn org.codehaus.mojo:versions-maven-plugin:2.12.0:display-property-updates -Pits
+
+# Update parent POM
+mvn org.codehaus.mojo:versions-maven-plugin:2.12.0:update-parent
+```
+
+## Usage
 
 All custom metrics should be defined in a unique 'format-metrics.json' file.  
 
 By default src/main/resources/fpgametrics/fomat-metrics.json is used to define the list of metrics.
 
-"Domain" field is optional. Metrics are automaticaly placed as "undefined" but its allowed to use a custom metric with an existing domain like "Maintenability". 
+"Domain" field is optional. Metrics are automatically placed as "undefined" but it's allowed to use a custom metric with an existing domain like "Maintenability". 
 
 Pay attention, case is sensitive.
 
 Measures for each custom metric should be defined in a file named 'measures.json' at the root of the analyzed project, when they relate to a project.
 
-PERCENT and FLOAT types coud be used with a tab [current_value, max_value].
+PERCENT and FLOAT types could be used with a tab [current_value, max_value].
 
 Metrics are grouped by unit. Coverage measure (PERCENT) and number of lines of code (INT) could not be displayed in the same graph.
 
@@ -107,6 +128,6 @@ measures.json file :
 }   
 
 
-# Tips
+## Tips
 
 To ensure storing parameters, the activity graph URL could be saved in favorite, thank to the link which contains all metrics information.
