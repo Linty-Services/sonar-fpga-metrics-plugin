@@ -1,6 +1,6 @@
 /*
  * SonarQube Linty FPGA Metrics :: Plugin
- * Copyright (C) 2020-2022 Linty Services
+ * Copyright (C) 2020-2023 Linty Services
  * mailto:contact@linty-services.com
  *
  * This program is free software; you can redistribute it and/or

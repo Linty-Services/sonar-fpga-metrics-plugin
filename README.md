@@ -130,4 +130,4 @@ measures.json file :
 
 ## Tips
 
-To ensure storing parameters, the activity graph URL could be saved in favorite, thank to the link which contains all metrics information.
+To ensure storing parameters, the activity graph URL could be saved in favorite, thanks to the link which contains all metrics information.
