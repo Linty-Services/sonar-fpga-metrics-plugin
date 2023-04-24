@@ -11,12 +11,12 @@
 
   <artifactId>sonar-fpga-metrics-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <name>SonarQube Linty FPGA Metrics :: Plugin</name>
+  <name>Linty FPGA Metrics :: Plugin</name>
   <url>https://www.linty-services.com</url>
 
   <dependencies>
     <dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
+      <groupId>org.sonarsource.api.plugin</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -57,7 +57,7 @@
         <configuration>
           <pluginName>FPGA Metrics</pluginName>
           <pluginClass>com.lintyservices.sonar.plugins.fpgametrics.FPGAMetricsPlugin</pluginClass>
-          <sonarQubeMinVersion>${sonar.version}</sonarQubeMinVersion>
+          <sonarQubeMinVersion>${sonar.api.version}</sonarQubeMinVersion>
         </configuration>
       </plugin>
     </plugins>

@@ -1,5 +1,5 @@
 /*
- * SonarQube Linty FPGA Metrics :: Integration Tests :: Plugin
+ * Linty FPGA Metrics :: Integration Tests :: Plugin
  * Copyright (C) 2020-2023 Linty Services
  * mailto:contact@linty-services.com
  *
@@ -35,8 +35,7 @@ public class Tests {
 
   @ClassRule
   public static final Orchestrator ORCHESTRATOR = Orchestrator.builderEnv()
-    .setSonarVersion(System.getProperty("sonar.runtimeVersion", "DEV"))
+    .setSonarVersion("10.0.0.68432")
     .addPlugin(FileLocation.byWildcardMavenFilename(new File("../../sonar-fpga-metrics-plugin/target"), "sonar-fpga-metrics-plugin-*.jar"))
     .build();
-
 }

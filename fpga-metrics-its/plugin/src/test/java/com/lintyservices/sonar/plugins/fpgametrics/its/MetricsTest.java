@@ -1,5 +1,5 @@
 /*
- * SonarQube Linty FPGA Metrics :: Integration Tests :: Plugin
+ * Linty FPGA Metrics :: Integration Tests :: Plugin
  * Copyright (C) 2020-2023 Linty Services
  * mailto:contact@linty-services.com
  *

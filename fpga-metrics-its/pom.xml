@@ -11,7 +11,7 @@
 
   <artifactId>fpga-metrics-its</artifactId>
   <packaging>pom</packaging>
-  <name>SonarQube Linty FPGA Metrics :: Integration Tests</name>
+  <name>Linty FPGA Metrics :: Integration Tests</name>
 
   <modules>
     <module>plugin</module>
