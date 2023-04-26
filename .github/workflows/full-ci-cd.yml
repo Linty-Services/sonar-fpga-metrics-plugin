@@ -120,7 +120,6 @@ jobs:
           tag: latest
           artifacts: sonar-fpga-metrics-plugin-latest.jar
           name: Latest build from main
-          prerelease: true
           commit: ${{ env.LATEST_COMMIT }}
 
   release:
