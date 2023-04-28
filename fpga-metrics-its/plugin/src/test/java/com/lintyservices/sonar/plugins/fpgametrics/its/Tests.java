@@ -35,7 +35,7 @@ public class Tests {
 
   @ClassRule
   public static final Orchestrator ORCHESTRATOR = Orchestrator.builderEnv()
-    .setSonarVersion("10.0.0.68432")
+    .setSonarVersion(System.getProperty("sonar.runtimeVersion", "LATEST_RELEASE"))
     .addPlugin(FileLocation.byWildcardMavenFilename(new File("../../sonar-fpga-metrics-plugin/target"), "sonar-fpga-metrics-plugin-*.jar"))
     .build();
 }
