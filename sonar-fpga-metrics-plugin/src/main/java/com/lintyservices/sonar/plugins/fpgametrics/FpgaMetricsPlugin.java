@@ -23,7 +23,7 @@ import com.lintyservices.sonar.plugins.fpgametrics.sensor.MeasuresImporter;
 import com.lintyservices.sonar.plugins.fpgametrics.sensor.MetricsImporter;
 import org.sonar.api.Plugin;
 
-public class FPGAMetricsPlugin implements Plugin {
+public class FpgaMetricsPlugin implements Plugin {
 
   @Override
   public void define(Context context) {

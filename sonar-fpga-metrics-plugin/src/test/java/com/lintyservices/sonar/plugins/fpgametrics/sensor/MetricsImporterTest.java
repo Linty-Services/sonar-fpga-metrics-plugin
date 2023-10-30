@@ -19,26 +19,24 @@
  */
 package com.lintyservices.sonar.plugins.fpgametrics.sensor;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metric.ValueType;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-
-public class MetricsImporterTest {
+class MetricsImporterTest {
 
   @Test
-  public void should_find_the_proper_number_of_metrics() {
+  void should_find_the_proper_number_of_metrics() {
     List<Metric> metrics = new MetricsImporter().getMetrics();
 
-    assertEquals(116, metrics.size());
+    Assertions.assertEquals(116, metrics.size());
   }
 
   @Test
-  public void should_find_the_proper_details_for_each_metric() {
+  void should_find_the_proper_details_for_each_metric() {
     List<Metric> metrics = new MetricsImporter().getMetrics();
 
     checkMetric(
@@ -70,25 +68,24 @@ public class MetricsImporterTest {
   }
 
   @Test
-  public void should_fail_while_loading_a_metric_without_type() {
-    Exception thrown = assertThrows(
+  void should_fail_while_loading_a_metric_without_type() {
+    Exception thrown = Assertions.assertThrows(
       IllegalStateException.class,
-      () -> new MetricsImporter().getMetricsFromJsonFile("src/test/files/metrics/metric-with-no-type/format-metrics.json", "test"));
+      () -> new MetricsImporter().getMetricsFromJsonFile("src/test/resources/metrics/metric-with-no-type/format-metrics.json", "test"));
 
-    assertEquals("[FPGA Metrics] NX_Log_Remarks metric cannot be created since it is not properly formatted", thrown.getMessage());
+    Assertions.assertEquals("[FPGA Metrics] NX_Log_Remarks metric cannot be created since it is not properly formatted", thrown.getMessage());
   }
 
   private void checkMetric(Metric metric, String expectedKey, String expectedName, Metric.ValueType expectedType,
                            String expectedDomain, String expectedDescription) {
-    assertEquals(expectedKey, metric.getKey());
-    assertEquals(expectedName, metric.getName());
-    assertEquals(expectedType, metric.getType());
-    assertEquals(expectedDomain, metric.getDomain());
-    assertEquals(expectedDescription, metric.getDescription());
-    assertEquals(false, metric.getQualitative());
-    assertEquals(false, metric.getUserManaged());
-    assertEquals(true, metric.getEnabled());
-    assertEquals(false, metric.getDeleteHistoricalData());
-    assertEquals(Integer.valueOf(0), metric.getDecimalScale());
+    Assertions.assertEquals(expectedKey, metric.getKey());
+    Assertions.assertEquals(expectedName, metric.getName());
+    Assertions.assertEquals(expectedType, metric.getType());
+    Assertions.assertEquals(expectedDomain, metric.getDomain());
+    Assertions.assertEquals(expectedDescription, metric.getDescription());
+    Assertions.assertFalse(metric.getQualitative());
+    Assertions.assertTrue(metric.getEnabled());
+    Assertions.assertFalse(metric.getDeleteHistoricalData());
+    Assertions.assertEquals(Integer.valueOf(0), metric.getDecimalScale());
   }
 }

@@ -32,9 +32,10 @@
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
     </dependency>
+
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -54,9 +55,10 @@
       <plugin>
         <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
         <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <version>1.21.0.505</version>
         <configuration>
           <pluginName>Linty FPGA Metrics</pluginName>
-          <pluginClass>com.lintyservices.sonar.plugins.fpgametrics.FPGAMetricsPlugin</pluginClass>
+          <pluginClass>com.lintyservices.sonar.plugins.fpgametrics.FpgaMetricsPlugin</pluginClass>
           <sonarQubeMinVersion>${sonar.api.version}</sonarQubeMinVersion>
         </configuration>
       </plugin>

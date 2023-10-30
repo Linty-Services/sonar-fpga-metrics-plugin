@@ -1,5 +1,5 @@
 /*
- * Linty FPGA Metrics :: Integration Tests :: Plugin
+ * Linty FPGA Metrics :: Integration Tests
  * Copyright (C) 2020-2023 Linty Services
  * mailto:contact@linty-services.com
  *
@@ -20,18 +20,16 @@
 package com.lintyservices.sonar.plugins.fpgametrics.its;
 
 import com.sonar.orchestrator.Orchestrator;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
-public class MetricsTest {
+class MetricsTest {
 
-  @ClassRule
-  public static final Orchestrator orchestrator = Tests.ORCHESTRATOR;
+  public static final Orchestrator ORCHESTRATOR = InitOrchestratorExtension.ORCHESTRATOR;
   private static final String PROJECT_KEY = "fpgametrics-metrics";
 
   @Test
-  public void project_measures() {
-    orchestrator.getServer().provisionProject(PROJECT_KEY, PROJECT_KEY);
+  void project_measures() {
+    ORCHESTRATOR.getServer().provisionProject(PROJECT_KEY, PROJECT_KEY);
   }
 }
