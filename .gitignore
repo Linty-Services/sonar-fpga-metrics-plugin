@@ -13,3 +13,5 @@ sonar-project.properties
 
 *.versionsBackup
 
+release_commit.txt
+latest_commit.txt
