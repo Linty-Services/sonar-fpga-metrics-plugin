@@ -90,37 +90,6 @@ jobs:
             release_commit.txt
             latest_commit.txt
 
-  pre-release:
-    name: GitHub Pre-release
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-    needs: build
-    if: contains(github.ref, 'main')
-    steps:
-      - name: Download Plugin JAR
-        uses: actions/download-artifact@v3
-        with:
-          name: plugin
-
-      - name: Rename JAR into latest
-        run: mv sonar-fpga-metrics-plugin-*.jar sonar-fpga-metrics-plugin-latest.jar
-
-      - name: Read Latest Commit Hash
-        run: echo "LATEST_COMMIT=$(cat latest_commit.txt)" >> $GITHUB_ENV
-
-      - name: Delete latest Release
-        run: gh release delete latest -R Linty-Services/sonar-fpga-metrics-plugin --cleanup-tag -y
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: "GitHub Release: ${{ github.event.inputs.release_version }}"
-        uses: ncipollo/release-action@v1
-        with:
-          tag: latest
-          artifacts: sonar-fpga-metrics-plugin-latest.jar
-          name: Latest build from main
-          commit: ${{ env.LATEST_COMMIT }}
-
   release:
     name: GitHub Release
     timeout-minutes: 10
