@@ -35,13 +35,14 @@ jobs:
         run: mvn -B versions:set -DnewVersion=${{ github.event.inputs.release_version }} -DgenerateBackupPoms=false
 
       - name: Build and Test
-        run: mvn -B clean verify -Pits -"Dsonar.runtimeVersion=${{ vars.SONAR_VERSION }}"
+        run: mvn -B clean verify -Pits
 
       - name: Run SonarQube Analysis
         if: contains(github.ref, 'main')
         run: mvn -B sonar:sonar -Dsonar.login=${{ secrets.SONARQUBE_SCANNER_FOR_PRIVATE_REPOSITORIES_TOKEN }}
 
       - name: Upload Plugin JAR
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v3
         with:
           name: plugin
@@ -62,6 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get Release Commit Hash
+        if: github.event_name == 'workflow_dispatch'
         run: echo $(git rev-parse HEAD) >> release_commit.txt
 
       - name: Set Next Development Cycle Version ${{ github.event.inputs.next_version }}
@@ -79,16 +81,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get Latest Commit Hash
-        run: echo $(git rev-parse HEAD) >> latest_commit.txt
-
       - name: Upload Commit Hashes
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v3
         with:
           name: commits
-          path: |
-            release_commit.txt
-            latest_commit.txt
+          path: release_commit.txt
 
   release:
     name: GitHub Release
