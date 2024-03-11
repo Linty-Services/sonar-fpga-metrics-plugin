@@ -15,7 +15,7 @@
   <name>Linty FPGA Metrics</name>
   <version>1.9.0-SNAPSHOT</version>
   <description>Import custom FPGA metrics</description>
-  <url>https://www.linty-services.com</url>
+  <url>https://linty-services.com</url>
 
   <modules>
     <module>sonar-fpga-metrics-plugin</module>
@@ -33,14 +33,15 @@
 
   <organization>
     <name>Linty Services</name>
-    <url>https://www.linty-services.com/</url>
+    <url>https://linty-services.com</url>
   </organization>
 
   <inceptionYear>2020</inceptionYear>
   <licenses>
     <license>
-      <name>GNU LGPL 3</name>
-      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <name>GNU Lesser General Public License v3.0 or later</name>
+      <url>https://spdx.org/licenses/LGPL-3.0-or-later.html</url>
+      <distribution>manual</distribution>
     </license>
   </licenses>
 
@@ -50,21 +51,14 @@
       <name>David Racodon</name>
       <email>david.racodon@linty-services.com</email>
       <organization>Linty Services</organization>
-      <organizationUrl>https://www.linty-services.com</organizationUrl>
+      <organizationUrl>https://linty-services.com</organizationUrl>
     </developer>
     <developer>
       <id>louisv</id>
       <name>Vincent Louis</name>
       <email>vincent.louis@linty-services.com</email>
       <organization>Linty Services</organization>
-      <organizationUrl>https://www.linty-services.com</organizationUrl>
-    </developer>
-    <developer>
-      <id>rocam</id>
-      <name>Mathias Roca</name>
-      <email>mathias.roca@linty-services.com</email>
-      <organization>Linty Services</organization>
-      <organizationUrl>https://www.linty-services.com</organizationUrl>
+      <organizationUrl>https://linty-services.com</organizationUrl>
     </developer>
   </developers>
 
