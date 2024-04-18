@@ -55,11 +55,12 @@
       <plugin>
         <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
         <artifactId>sonar-packaging-maven-plugin</artifactId>
-        <version>1.21.0.505</version>
+        <version>1.23.0.740</version>
         <configuration>
           <pluginName>Linty FPGA Metrics</pluginName>
-          <pluginClass>com.lintyservices.sonar.plugins.fpgametrics.FpgaMetricsPlugin</pluginClass>
-          <sonarQubeMinVersion>${sonar.api.version}</sonarQubeMinVersion>
+          <pluginClass>com.lintyservices.sonar.plugins.fpgametrics.FpgaMetricsPlugin</pluginClass>*
+          <jreMinVersion>17</jreMinVersion>
+          <requiredForLanguages>hdl,vhdl,verilog</requiredForLanguages>
         </configuration>
       </plugin>
     </plugins>
