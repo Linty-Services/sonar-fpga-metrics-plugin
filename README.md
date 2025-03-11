@@ -2,6 +2,12 @@
 
 Create custom metrics and populate them through external file import.
 
+## Compatibility Matrix
+
+| FPGA Metrics Plugin | SonarQube Community |
+|---------------------|---------------------|
+| 1.9.0               | 25.3.0.104237       |
+
 ## Build Plugin
 
 Without integration tests:
