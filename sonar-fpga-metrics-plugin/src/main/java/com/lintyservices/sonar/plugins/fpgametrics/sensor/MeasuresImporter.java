@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2025 Linty Services
+ * Copyright (C) 2019-2026 Linty Services
  * mailto:contact@linty-services.com
  *
  * This program is free software; you can redistribute it and/or
@@ -27,22 +27,24 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
 public class MeasuresImporter implements ProjectSensor {
 
-  private static final Logger LOG = Loggers.get(MeasuresImporter.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MeasuresImporter.class);
   private Map<String, Metric> metrics;
 
   @Override
@@ -67,10 +69,12 @@ public class MeasuresImporter implements ProjectSensor {
 
   private Map<String, Object> getMeasuresFromJsonFile(String filePath) {
     try {
-      return new Gson().fromJson(new FileReader(filePath), Map.class);
+      return new Gson().fromJson(new FileReader(filePath, StandardCharsets.UTF_8), Map.class);
     } catch (FileNotFoundException e) {
       LOG.debug("[FPGA Metrics] No measures report found: " + filePath);
       return Collections.emptyMap();
+    } catch (IOException e) {
+      throw new IllegalStateException("[FPGA Metrics] Cannot parse JSON measures report: " + filePath, e);
     } catch (JsonSyntaxException | JsonIOException e) {
       throw new IllegalStateException("[FPGA Metrics] Cannot parse JSON measures report: " + filePath);
     }

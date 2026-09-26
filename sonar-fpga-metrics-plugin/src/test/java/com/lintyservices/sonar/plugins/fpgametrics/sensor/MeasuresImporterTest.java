@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2025 Linty Services
+ * Copyright (C) 2019-2026 Linty Services
  * mailto:contact@linty-services.com
  *
  * This program is free software; you can redistribute it and/or
@@ -31,9 +31,9 @@ class MeasuresImporterTest {
   void should_properly_load_project_measures() {
     SensorContextTester contextTester = loadMeasuresFromPath("src/test/resources/measures/valid/");
 
-    Measure<Integer> intMeasure = contextTester.measure(contextTester.module().key(), "NX_Log_Remarks");
-    Measure<Double> floatMeasure = contextTester.measure(contextTester.module().key(), "NX_CLK1_Max_Delay");
-    Measure<Double> percentage = contextTester.measure(contextTester.module().key(), "NX_4LUT_PERCENT");
+    Measure<Integer> intMeasure = contextTester.measure(contextTester.project().key(), "NX_Log_Remarks");
+    Measure<Double> floatMeasure = contextTester.measure(contextTester.project().key(), "NX_CLK1_Max_Delay");
+    Measure<Double> percentage = contextTester.measure(contextTester.project().key(), "NX_4LUT_PERCENT");
 
     Assertions.assertEquals(1, intMeasure.value());
     Assertions.assertEquals(Double.valueOf(54.385), floatMeasure.value());
