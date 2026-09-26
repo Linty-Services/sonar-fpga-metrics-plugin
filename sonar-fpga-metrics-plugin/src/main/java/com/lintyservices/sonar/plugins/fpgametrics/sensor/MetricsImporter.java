@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2025 Linty Services
+ * Copyright (C) 2019-2026 Linty Services
  * mailto:contact@linty-services.com
  *
  * This program is free software; you can redistribute it and/or
@@ -26,9 +26,10 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metric.ValueType;
 import org.sonar.api.measures.Metrics;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +46,15 @@ public class MetricsImporter implements Metrics {
     InputStreamReader inputStreamReader;
     if ("test".equals(type)) {
       try {
-        inputStreamReader = new FileReader(jsonFilePath);
-      } catch (FileNotFoundException e) {
+        inputStreamReader = new FileReader(jsonFilePath, StandardCharsets.UTF_8);
+      } catch (IOException e) {
         throw new IllegalStateException("[FPGA Metrics] Cannot find JSON metrics file", e);
       }
     } else {
-      inputStreamReader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream(jsonFilePath));
+      inputStreamReader = new InputStreamReader(
+        getClass().getClassLoader().getResourceAsStream(jsonFilePath),
+        StandardCharsets.UTF_8
+      );
     }
     JsonMetrics jsonMetrics = new Gson().fromJson(
       inputStreamReader,
@@ -87,7 +91,6 @@ public class MetricsImporter implements Metrics {
       .setDecimalScale(value.getDecimalScale())
       .setDeleteHistoricalData(value.isDeleteHistoricalData())
       .setHidden(value.isHidden())
-      .setUserManaged(value.isUserManaged())
       .create();
   }
 }
