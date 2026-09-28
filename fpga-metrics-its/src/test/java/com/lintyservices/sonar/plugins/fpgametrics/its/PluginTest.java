@@ -18,17 +18,31 @@
  */
 package com.lintyservices.sonar.plugins.fpgametrics.its;
 
-import com.sonar.orchestrator.Orchestrator;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.File;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
+import com.lintyservices.testharness.Orchestrator;
+import com.sonar.orchestrator.junit5.OrchestratorExtension;
+import com.sonar.orchestrator.locator.FileLocation;
 
-class MetricsTest {
+class PluginTest {
 
-  public static final Orchestrator ORCHESTRATOR = InitOrchestratorExtension.ORCHESTRATOR;
-  private static final String PROJECT_KEY = "fpgametrics-metrics";
+  @RegisterExtension
+  static final OrchestratorExtension ORCHESTRATOR = Orchestrator.createOrchestratorExtensionBuilder()
+    .addPlugin(FileLocation.byWildcardMavenFilename(new File("../sonar-fpga-metrics-plugin/target"), "sonar-fpga-metrics-plugin-*.jar"))
+    .build();
 
   @Test
-  void project_measures() {
-    ORCHESTRATOR.getServer().provisionProject(PROJECT_KEY, PROJECT_KEY);
+  void sonar_fpag_metrics_plugin_is_installed() {
+    String body = ORCHESTRATOR.getServer()
+      .newHttpCall("api/plugins/installed")
+      .setAdminCredentials()
+      .execute()
+      .getBodyAsString();
+    assertThat(body).contains("\"key\":\"fpgametrics\"");
   }
 }
