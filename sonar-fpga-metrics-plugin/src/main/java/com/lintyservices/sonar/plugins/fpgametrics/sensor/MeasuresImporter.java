@@ -1,20 +1,9 @@
 /*
- * Copyright (C) 2019-2026 Linty Services
- * mailto:contact@linty-services.com
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * This confidential and proprietary software may be used only as authorized
+ * by a licensing agreement from Linty Services.
+ * (c) Copyright 2016-2026 Linty Services
+ * ALL RIGHTS RESERVED
+ * The entire notice above must be reproduced on all authorized copies.
  */
 package com.lintyservices.sonar.plugins.fpgametrics.sensor;
 
@@ -22,16 +11,6 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import org.apache.commons.io.FilenameUtils;
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.measures.Metric;
-import org.sonar.api.scanner.sensor.ProjectSensor;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -41,6 +20,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.scanner.sensor.ProjectSensor;
 
 public class MeasuresImporter implements ProjectSensor {
 
@@ -58,10 +45,12 @@ public class MeasuresImporter implements ProjectSensor {
     addAllMeasuresToProject(context);
 
     FileSystem fs = context.fileSystem();
-    Iterable<InputFile> files = fs.inputFiles(fs.predicates().and(
-      fs.predicates().hasLanguage("vhdl"),
-      fs.predicates().hasType(InputFile.Type.MAIN)
-    ));
+    Iterable<InputFile> files =
+        fs.inputFiles(
+            fs.predicates()
+                .and(
+                    fs.predicates().hasLanguage("vhdl"),
+                    fs.predicates().hasType(InputFile.Type.MAIN)));
     for (InputFile file : files) {
       addAllMeasuresToFile(context, file);
     }
@@ -74,36 +63,40 @@ public class MeasuresImporter implements ProjectSensor {
       LOG.debug("[FPGA Metrics] No measures report found: " + filePath);
       return Collections.emptyMap();
     } catch (IOException e) {
-      throw new IllegalStateException("[FPGA Metrics] Cannot parse JSON measures report: " + filePath, e);
+      throw new IllegalStateException(
+          "[FPGA Metrics] Cannot parse JSON measures report: " + filePath, e);
     } catch (JsonSyntaxException | JsonIOException e) {
-      throw new IllegalStateException("[FPGA Metrics] Cannot parse JSON measures report: " + filePath);
+      throw new IllegalStateException(
+          "[FPGA Metrics] Cannot parse JSON measures report: " + filePath);
     }
   }
 
   private void addAllMeasuresToProject(SensorContext context) {
-    Map<String, Object> measures = getMeasuresFromJsonFile(context.fileSystem().baseDir().getPath() + File.separator + "measures.json");
+    Map<String, Object> measures =
+        getMeasuresFromJsonFile(
+            context.fileSystem().baseDir().getPath() + File.separator + "measures.json");
     for (Map.Entry<String, Object> measure : measures.entrySet()) {
       addNewMeasure(context, null, getMetricFromKey(measure.getKey()), measure.getValue());
     }
   }
 
   private void addAllMeasuresToFile(SensorContext context, InputFile file) {
-    Map<String, Object> measures = getMeasuresFromJsonFile(
-      context.fileSystem().baseDir().getPath() + File.separator
-        + FilenameUtils.removeExtension(file.filename()) + "_measures.json"
-    );
+    Map<String, Object> measures =
+        getMeasuresFromJsonFile(
+            context.fileSystem().baseDir().getPath()
+                + File.separator
+                + stripExtension(file.filename())
+                + "_measures.json");
 
     for (Map.Entry<String, Object> measure : measures.entrySet()) {
       addNewMeasure(context, file, getMetricFromKey(measure.getKey()), measure.getValue());
     }
   }
 
-  private void addNewMeasure(SensorContext context, InputFile file, Metric metric, Object rawMeasure) {
-    Serializable measure = getTypedMeasure(
-      metric.getType().name(),
-      getMeasure(rawMeasure),
-      getRatioMax(rawMeasure)
-    );
+  private void addNewMeasure(
+      SensorContext context, InputFile file, Metric metric, Object rawMeasure) {
+    Serializable measure =
+        getTypedMeasure(metric.getType().name(), getMeasure(rawMeasure), getRatioMax(rawMeasure));
 
     if (file != null) {
       context.newMeasure().forMetric(metric).on(file).withValue(measure).save();
@@ -129,7 +122,8 @@ public class MeasuresImporter implements ProjectSensor {
   private Metric getMetricFromKey(String metricKey) {
     Metric metric = metrics.get(metricKey);
     if (metric == null) {
-      throw new IllegalStateException("[FPGA Metrics] Metric with '" + metricKey + "' key cannot be found");
+      throw new IllegalStateException(
+          "[FPGA Metrics] Metric with '" + metricKey + "' key cannot be found");
     }
     return metric;
   }
@@ -153,7 +147,13 @@ public class MeasuresImporter implements ProjectSensor {
       case "WORK_DUR":
         return Math.round((Double) measureValue);
       default:
-        throw new IllegalStateException("[FPGA Metrics] '" + metricType + "' metric type not recognized.");
+        throw new IllegalStateException(
+            "[FPGA Metrics] '" + metricType + "' metric type not recognized.");
     }
+  }
+
+  private static String stripExtension(String filename) {
+    int lastDot = filename.lastIndexOf('.');
+    return lastDot > 0 ? filename.substring(0, lastDot) : filename;
   }
 }

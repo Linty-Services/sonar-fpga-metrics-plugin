@@ -29,28 +29,12 @@ Update license headers:
 mvn license:format -Pits
 ```
 
-## Update All Dependencies
+## Format code with spotless:
 
 ```bash
-# Check for Maven dependencies to update
-mvn org.codehaus.mojo:versions-maven-plugin:display-dependency-updates -Pits
-
-# Check for Maven plugins to update
-mvn org.codehaus.mojo:versions-maven-plugin:display-plugin-updates -Pits
-
-# Check for versions in properties to update
-mvn org.codehaus.mojo:versions-maven-plugin:display-property-updates -Pits
-
-# Update parent POM
-# Check https://mvnrepository.com/artifact/org.sonarsource.parent/parent
+mvn spotless:check -Pits
+mvn spotless:apply -Pits
 ```
-
-### Update Sonar Version
-
-* Update `sonar.version` property in [pom.xml](pom.xml): Sonar version
-* Update `sonar.api.version` property in [pom.xml](pom.xml):
-  See https://github.com/SonarSource/sonar-plugin-api/releases. Make sure that the version of the API is included in
-  Sonar version.
 
 ## Usage
 

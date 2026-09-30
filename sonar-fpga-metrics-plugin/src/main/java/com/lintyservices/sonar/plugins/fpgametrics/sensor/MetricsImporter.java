@@ -1,20 +1,9 @@
 /*
- * Copyright (C) 2019-2026 Linty Services
- * mailto:contact@linty-services.com
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * This confidential and proprietary software may be used only as authorized
+ * by a licensing agreement from Linty Services.
+ * (c) Copyright 2016-2026 Linty Services
+ * ALL RIGHTS RESERVED
+ * The entire notice above must be reproduced on all authorized copies.
  */
 package com.lintyservices.sonar.plugins.fpgametrics.sensor;
 
@@ -22,10 +11,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
 import com.lintyservices.sonar.plugins.fpgametrics.gsondata.JsonMetric;
 import com.lintyservices.sonar.plugins.fpgametrics.gsondata.JsonMetrics;
-import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.Metric.ValueType;
-import org.sonar.api.measures.Metrics;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,6 +18,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.measures.Metric.ValueType;
+import org.sonar.api.measures.Metrics;
 
 public class MetricsImporter implements Metrics {
 
@@ -51,23 +39,23 @@ public class MetricsImporter implements Metrics {
         throw new IllegalStateException("[FPGA Metrics] Cannot find JSON metrics file", e);
       }
     } else {
-      inputStreamReader = new InputStreamReader(
-        getClass().getClassLoader().getResourceAsStream(jsonFilePath),
-        StandardCharsets.UTF_8
-      );
+      inputStreamReader =
+          new InputStreamReader(
+              getClass().getClassLoader().getResourceAsStream(jsonFilePath),
+              StandardCharsets.UTF_8);
     }
-    JsonMetrics jsonMetrics = new Gson().fromJson(
-      inputStreamReader,
-      JsonMetrics.class
-    );
+    JsonMetrics jsonMetrics = new Gson().fromJson(inputStreamReader, JsonMetrics.class);
 
     List<Metric> metrics = new ArrayList<>();
     for (Map.Entry<String, JsonMetric> metric : jsonMetrics.metrics().entrySet()) {
       try {
         metrics.add(convertToSonarQubeMetric(metric));
       } catch (Exception e) {
-        throw new IllegalStateException("[FPGA Metrics] " + metric.getKey()
-          + " metric cannot be created since it is not properly formatted", e);
+        throw new IllegalStateException(
+            "[FPGA Metrics] "
+                + metric.getKey()
+                + " metric cannot be created since it is not properly formatted",
+            e);
       }
     }
     return metrics;
@@ -76,21 +64,17 @@ public class MetricsImporter implements Metrics {
   private Metric convertToSonarQubeMetric(Map.Entry<String, JsonMetric> metric) {
     String key = metric.getKey();
     JsonMetric value = metric.getValue();
-    return new Metric.Builder(
-      key,
-      value.getName(),
-      ValueType.valueOf(value.getType())
-    )
-      .setDescription(value.getDescription())
-      .setDirection(value.getDirection())
-      .setQualitative(value.isQualitative())
-      .setDomain(value.getDomain())
-      .setWorstValue(value.getWorstValue())
-      .setBestValue(value.getBestValue())
-      .setOptimizedBestValue(value.isOptimizedBestValue())
-      .setDecimalScale(value.getDecimalScale())
-      .setDeleteHistoricalData(value.isDeleteHistoricalData())
-      .setHidden(value.isHidden())
-      .create();
+    return new Metric.Builder(key, value.getName(), ValueType.valueOf(value.getType()))
+        .setDescription(value.getDescription())
+        .setDirection(value.getDirection())
+        .setQualitative(value.isQualitative())
+        .setDomain(value.getDomain())
+        .setWorstValue(value.getWorstValue())
+        .setBestValue(value.getBestValue())
+        .setOptimizedBestValue(value.isOptimizedBestValue())
+        .setDecimalScale(value.getDecimalScale())
+        .setDeleteHistoricalData(value.isDeleteHistoricalData())
+        .setHidden(value.isHidden())
+        .create();
   }
 }
