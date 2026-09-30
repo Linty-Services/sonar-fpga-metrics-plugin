@@ -19,7 +19,7 @@
 
   <groupId>com.lintyservices.sonar.plugins.fpgametrics</groupId>
   <artifactId>parent</artifactId>
-  <version>1.11.0</version>
+  <version>1.12.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Linty FPGA Metrics</name>
   <description>Import custom FPGA metrics</description>
